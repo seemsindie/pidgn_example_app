@@ -19,7 +19,7 @@ ENV PATH="/opt/zig:${PATH}"
 WORKDIR /build
 
 # Clone public dependencies
-RUN git clone --depth 1 https://github.com/seemsindie/zzz.git ../zzz && \
+RUN git clone --depth 1 https://github.com/seemsindie/zzz.zig.git ../zzz.zig && \
     git clone --depth 1 https://github.com/seemsindie/zzz_db.git ../zzz_db && \
     git clone --depth 1 https://github.com/seemsindie/zzz_jobs.git ../zzz_jobs
 

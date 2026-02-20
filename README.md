@@ -5,7 +5,7 @@ A comprehensive demo application showcasing the features of the zzz web framewor
 ## Running
 
 ```bash
-cd example_app
+cd zzz_example_app
 zig build run
 # Server running on http://127.0.0.1:9000
 ```
@@ -120,7 +120,7 @@ The app uses 11 middleware in its pipeline:
 ## Project Structure
 
 ```
-example_app/
+zzz_example_app/
   src/
     main.zig                  # Route aggregation & server setup
     controllers/

@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Clone zzz dependency
-      run: git clone --depth 1 https://github.com/seemsindie/zzz.git ../zzz
+      run: git clone --depth 1 https://github.com/seemsindie/zzz.zig.git ../zzz.zig
     - name: Clone zzz_db dependency
       run: git clone --depth 1 https://github.com/seemsindie/zzz_db.git ../zzz_db
     - name: Clone zzz_jobs dependency
