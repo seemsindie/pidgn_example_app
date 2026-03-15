@@ -77,30 +77,7 @@ pub fn build(b: *std.Build) void {
         }),
     });
 
-    // SQLite linking
-    exe.root_module.linkSystemLibrary("sqlite3", .{});
     exe.root_module.link_libc = true;
-    if (target.result.os.tag == .macos) {
-        exe.root_module.addSystemIncludePath(.{ .cwd_relative = "/opt/homebrew/opt/sqlite/include" });
-        exe.root_module.addLibraryPath(.{ .cwd_relative = "/opt/homebrew/opt/sqlite/lib" });
-    }
-
-    // PostgreSQL linking
-    if (postgres_enabled) {
-        exe.root_module.linkSystemLibrary("pq", .{});
-        if (target.result.os.tag == .macos) {
-            exe.root_module.addSystemIncludePath(.{ .cwd_relative = "/opt/homebrew/opt/libpq/include" });
-            exe.root_module.addLibraryPath(.{ .cwd_relative = "/opt/homebrew/opt/libpq/lib" });
-        }
-    }
-
-    // OpenSSL linking (required for zzz_mailer SMTP adapter, and optionally for TLS)
-    exe.root_module.linkSystemLibrary("ssl", .{});
-    exe.root_module.linkSystemLibrary("crypto", .{});
-    if (target.result.os.tag == .macos) {
-        exe.root_module.addSystemIncludePath(.{ .cwd_relative = "/opt/homebrew/opt/openssl@3/include" });
-        exe.root_module.addLibraryPath(.{ .cwd_relative = "/opt/homebrew/opt/openssl@3/lib" });
-    }
 
     b.installArtifact(exe);
 
