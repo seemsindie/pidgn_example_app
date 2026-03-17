@@ -5,7 +5,7 @@
     .minimum_zig_version = "0.16.0-dev.2905+5d71e3051",
     .dependencies = .{
         .zzz = .{
-            .url = "git+https://github.com/seemsindie/zzz.zig#8bbf96445e9a3a95b2ac18e6bd6a14c1a27f5eb3",
+            .url = "git+https://github.com/seemsindie/zzz.zig#8bbf964a3c078cb36d81517595abd25d7b47acb7",
             .hash = "zzz-0.2.0-beta.1-LYmrM33CCAAMXXWcKe8VgOEPzc_WBXt59c5vEU6tsnNl",
         },
         .zzz_db = .{
@@ -17,8 +17,8 @@
             .hash = "zzz_jobs-0.2.0-beta.1-AgagnYNgAQDdSmT2ekSMVR7BZ8RprdVDtGQoERNOcsuF",
         },
         .zzz_mailer = .{
-            .url = "git+https://github.com/seemsindie/zzz_mailer#6ec2031bb3335bd9a3c6f13d0d863de42d9d4e32",
-            .hash = "zzz_mailer-0.2.0-beta.1-vOeL4zdvAQAf7_D6-UxuL3zDyVp-78lJcUmLE3EQBWeG",
+            .url = "git+https://github.com/seemsindie/zzz_mailer#d228b43b88c927290156ecf8968fb4a14b8999d8",
+            .hash = "zzz_mailer-0.2.0-beta.1-vOeL4zdvAQBC7wfMdQvU0JfoPMJoBS11vKNsakv9fBEZ",
         },
         .zzz_template = .{
             .url = "git+https://github.com/seemsindie/zzz_template#45cec530f5f0f68d9d77ee5966ebea98302b5ea8",
