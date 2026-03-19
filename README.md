@@ -153,7 +153,7 @@ zzz_example_app/
 
 ## Documentation
 
-Full documentation available at [docs.zzz.seemsindie.com](https://docs.zzz.seemsindie.com).
+Full documentation available at [docs.zzz.indielab.link](https://docs.zzz.indielab.link).
 
 ## Ecosystem
 
