@@ -1,0 +1,3 @@
+[build]
+target = "browser"
+minify = true
