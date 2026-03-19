@@ -55,6 +55,9 @@ const index_routes = [_]RouteItem{
     .{ .html = "<a href=\"/db\">Database Demo</a> &mdash; SQLite CRUD with zzz_db" },
     .{ .html = "<a href=\"/jobs\">Background Jobs</a> &mdash; zzz_jobs demo" },
     .{ .html = "<a href=\"/api/docs\">API Docs</a> &mdash; Swagger UI (OpenAPI 3.1.0)" },
+    .{ .html = "<a href=\"/sse-demo\">SSE Demo</a> &mdash; Server-Sent Events streaming" },
+    .{ .html = "<a href=\"/cache-demo\">Cache Demo</a> &mdash; response caching with X-Cache headers" },
+    .{ .html = "<a href=\"/ssr-demo\">SSR Demo</a> &mdash; server-side rendering with Bun" },
 } ++ if (pg_enabled) [_]RouteItem{
     .{ .html = "<a href=\"/pg\">PostgreSQL Demo</a> &mdash; CRUD with PostgreSQL via zzz_db" },
 } else [_]RouteItem{};

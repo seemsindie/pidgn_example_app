@@ -106,6 +106,26 @@ zig build run -Dtls=true
 | `POST /jobs/enqueue` | Enqueue background job |
 | `GET /jobs/stats` | Queue statistics |
 
+### Server-Sent Events
+
+| Route | Feature |
+|-------|---------|
+| `GET /sse-demo` | SSE demo page |
+| `GET /events` | SSE event stream endpoint |
+
+### Caching
+
+| Route | Feature |
+|-------|---------|
+| `GET /cache-demo` | Cache demo page |
+| `GET /api/cached/time` | Cached JSON endpoint (10s TTL, `X-Cache` header) |
+
+### Server-Side Rendering
+
+| Route | Feature |
+|-------|---------|
+| `GET /ssr-demo` | SSR bridge documentation and usage guide |
+
 ## Middleware Stack
 
 The app uses 11 middleware in its pipeline:
@@ -121,6 +141,7 @@ The app uses 11 middleware in its pipeline:
 9. CSRF protection
 10. Static file serving
 11. Swagger UI
+12. Response cache (`/api/cached/*`)
 
 ## Project Structure
 
@@ -139,6 +160,9 @@ zzz_example_app/
       jobs.zig                # Background jobs
       ws.zig                  # WebSocket & channels
       misc.zig                # File download, errors
+      sse_ctrl.zig            # SSE demo
+      cache_ctrl.zig          # Cache demo
+      ssr_ctrl.zig            # SSR demo
     templates/
       layout.html.zzz         # Main layout
       index.html.zzz          # Home page

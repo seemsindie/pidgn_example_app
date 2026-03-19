@@ -15,6 +15,9 @@ const jobs_ctrl = @import("controllers/jobs.zig");
 const mail_ctrl = @import("controllers/mail.zig");
 const ws_ctrl = @import("controllers/ws.zig");
 const misc = @import("controllers/misc.zig");
+const sse_ctrl = @import("controllers/sse_ctrl.zig");
+const cache_ctrl = @import("controllers/cache_ctrl.zig");
+const ssr_ctrl = @import("controllers/ssr_ctrl.zig");
 
 // ── Middleware ─────────────────────────────────────────────────────────
 
@@ -52,6 +55,9 @@ const routes = api.posts_resource
         zzz.Router.get("/jwt", auth.jwtDemo),
     })
     ++ misc.ctrl.routes
+    ++ sse_ctrl.ctrl.routes
+    ++ cache_ctrl.ctrl.routes
+    ++ ssr_ctrl.ctrl.routes
     ++ zzz.Router.scope("/__zzz/mailbox", &.{}, &.{
         zzz.Router.get("", mail_ctrl.mailboxInbox),
         zzz.Router.get("/:index", mail_ctrl.mailboxDetail),
@@ -106,6 +112,7 @@ pub fn main(init: std.process.Init) !void {
     var server = zzz.Server.init(allocator, .{
         .host = config.host,
         .port = config.port,
+        .drain_timeout_ms = 15_000, // 15s graceful shutdown
     }, App.handler);
 
     try server.listen(io);

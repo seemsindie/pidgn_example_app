@@ -65,6 +65,9 @@ pub const ctrl = zzz.Controller.define(.{}, &.{
     zzz.Router.get("/chat", chatDemo),
     zzz.Router.channel("/socket", .{
         .channels = &.{roomChannelDef},
+        .rate_limit_msgs = 50,
+        .rate_limit_per_s = 5,
+        .rate_limit_action = .drop,
     }),
 });
 
