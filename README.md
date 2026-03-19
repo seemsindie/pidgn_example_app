@@ -15,6 +15,17 @@ zig build run
 # Server running on http://127.0.0.1:9000
 ```
 
+### With Asset Pipeline
+
+```bash
+zzz assets setup     # Generate starter asset files
+bun install          # Install JavaScript dependencies
+zzz assets build     # Bundle, minify, and fingerprint assets
+zig build run        # Start the server
+```
+
+During development, run `zzz assets watch` in a separate terminal to rebuild assets on change.
+
 ### With PostgreSQL
 
 ```bash
