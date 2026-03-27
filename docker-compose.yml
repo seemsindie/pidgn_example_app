@@ -6,16 +6,16 @@ services:
     environment:
       HOST: "0.0.0.0"
       PORT: "9000"
-      DATABASE_URL: "host=postgres dbname=zzz_demo user=zzz password=zzz"
+      DATABASE_URL: "host=postgres dbname=pidgn_demo user=pidgn password=pidgn"
     depends_on:
       - postgres
 
   postgres:
     image: postgres:17
     environment:
-      POSTGRES_DB: zzz_demo
-      POSTGRES_USER: zzz
-      POSTGRES_PASSWORD: zzz
+      POSTGRES_DB: pidgn_demo
+      POSTGRES_USER: pidgn
+      POSTGRES_PASSWORD: pidgn
     ports:
       - "5432:5432"
     volumes:

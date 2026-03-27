@@ -1,13 +1,13 @@
 const std = @import("std");
-const zzz = @import("zzz");
-const zzz_db = @import("zzz_db");
+const pidgn = @import("pidgn");
+const pidgn_db = @import("pidgn_db");
 
-pub const pg_enabled = zzz_db.postgres_enabled;
+pub const pg_enabled = pidgn_db.postgres_enabled;
 
 // Routes — empty when PostgreSQL is disabled
-pub const routes: []const zzz.RouteDef = if (pg_enabled) pg_impl.routes else &[_]zzz.RouteDef{};
+pub const routes: []const pidgn.RouteDef = if (pg_enabled) pg_impl.routes else &[_]pidgn.RouteDef{};
 
-pub fn setEnv(e: *const zzz.Env) void {
+pub fn setEnv(e: *const pidgn.Env) void {
     if (pg_enabled) {
         pg_impl.env = e;
     }
@@ -18,20 +18,20 @@ const pg_impl = if (pg_enabled) struct {
     const db_mod = @import("db.zig");
     const home = @import("home.zig");
     const AppLayout = home.AppLayout;
-    const PgDemoContent = zzz.template(@embedFile("../templates/pg_demo.html.zzz"));
+    const PgDemoContent = pidgn.template(@embedFile("../templates/pg_demo.html.pidgn"));
     const DemoUser = db_mod.DemoUser;
     const DbUserView = db_mod.DbUserView;
 
-    var env: *const zzz.Env = undefined;
-    var pg_pool: zzz_db.PgPool = undefined;
+    var env: *const pidgn.Env = undefined;
+    var pg_pool: pidgn_db.PgPool = undefined;
     var pg_initialized: bool = false;
     var db_url_z: [:0]const u8 = undefined;
 
     fn initPgDb() !void {
         if (pg_initialized) return;
-        const url = env.getDefault("DATABASE_URL", "host=localhost dbname=zzz_demo user=zzz password=zzz");
+        const url = env.getDefault("DATABASE_URL", "host=localhost dbname=pidgn_demo user=pidgn password=pidgn");
         db_url_z = try std.heap.page_allocator.dupeZ(u8, url);
-        pg_pool = try zzz_db.PgPool.init(.{
+        pg_pool = try pidgn_db.PgPool.init(.{
             .size = 3,
             .connection = .{ .database = db_url_z },
         });
@@ -42,25 +42,25 @@ const pg_impl = if (pg_enabled) struct {
         pg_initialized = true;
     }
 
-    const routes: []const zzz.RouteDef = &[_]zzz.RouteDef{
-        zzz.Router.get("/pg", pgDemo),
-        zzz.Router.post("/pg/add", pgAddUser),
-        zzz.Router.post("/pg/delete/:id", pgDeleteUser),
+    const routes: []const pidgn.RouteDef = &[_]pidgn.RouteDef{
+        pidgn.Router.get("/pg", pgDemo),
+        pidgn.Router.post("/pg/add", pgAddUser),
+        pidgn.Router.post("/pg/delete/:id", pgDeleteUser),
     };
 
-    fn pgDemo(ctx: *zzz.Context) !void {
+    fn pgDemo(ctx: *pidgn.Context) !void {
         initPgDb() catch {
             ctx.text(.internal_server_error, "PostgreSQL initialization failed");
             return;
         };
 
-        const repo = zzz_db.PgRepo.init(&pg_pool);
-        const q = zzz_db.Query(DemoUser).init().orderBy("id", .desc);
+        const repo = pidgn_db.PgRepo.init(&pg_pool);
+        const q = pidgn_db.Query(DemoUser).init().orderBy("id", .desc);
         const users = repo.all(DemoUser, q, ctx.allocator) catch {
             ctx.text(.internal_server_error, "Failed to load users");
             return;
         };
-        defer zzz_db.freeAll(DemoUser, users, ctx.allocator);
+        defer pidgn_db.freeAll(DemoUser, users, ctx.allocator);
 
         const csrf_token = ctx.getAssign("csrf_token") orelse "";
 
@@ -77,7 +77,7 @@ const pg_impl = if (pg_enabled) struct {
 
         try ctx.renderWithLayout(AppLayout, PgDemoContent, .ok, .{
             .title = "PostgreSQL Demo",
-            .description = "PostgreSQL CRUD operations powered by zzz_db.",
+            .description = "PostgreSQL CRUD operations powered by pidgn_db.",
             .has_users = view_count > 0,
             .users = @as([]const DbUserView, views[0..view_count]),
             .user_count = count_str,
@@ -85,7 +85,7 @@ const pg_impl = if (pg_enabled) struct {
         });
     }
 
-    fn pgAddUser(ctx: *zzz.Context) !void {
+    fn pgAddUser(ctx: *pidgn.Context) !void {
         initPgDb() catch {
             ctx.text(.internal_server_error, "PostgreSQL initialization failed");
             return;
@@ -93,11 +93,11 @@ const pg_impl = if (pg_enabled) struct {
 
         const raw_name = ctx.param("name") orelse "";
         const raw_email = ctx.param("email") orelse "";
-        const name = zzz.urlDecode(ctx.allocator, raw_name) catch raw_name;
-        const email = zzz.urlDecode(ctx.allocator, raw_email) catch raw_email;
+        const name = pidgn.urlDecode(ctx.allocator, raw_name) catch raw_name;
+        const email = pidgn.urlDecode(ctx.allocator, raw_email) catch raw_email;
 
         if (name.len > 0 and email.len > 0) {
-            const repo = zzz_db.PgRepo.init(&pg_pool);
+            const repo = pidgn_db.PgRepo.init(&pg_pool);
             var inserted = repo.insert(DemoUser, .{
                 .id = 0,
                 .name = name,
@@ -106,13 +106,13 @@ const pg_impl = if (pg_enabled) struct {
                 ctx.text(.internal_server_error, "Failed to insert user");
                 return;
             };
-            zzz_db.freeOne(DemoUser, &inserted, ctx.allocator);
+            pidgn_db.freeOne(DemoUser, &inserted, ctx.allocator);
         }
 
         ctx.redirect("/pg", .see_other);
     }
 
-    fn pgDeleteUser(ctx: *zzz.Context) !void {
+    fn pgDeleteUser(ctx: *pidgn.Context) !void {
         initPgDb() catch {
             ctx.text(.internal_server_error, "PostgreSQL initialization failed");
             return;
@@ -121,7 +121,7 @@ const pg_impl = if (pg_enabled) struct {
         const id_str = ctx.param("id") orelse "0";
         const id = std.fmt.parseInt(i64, id_str, 10) catch 0;
         if (id > 0) {
-            const repo = zzz_db.PgRepo.init(&pg_pool);
+            const repo = pidgn_db.PgRepo.init(&pg_pool);
             repo.delete(DemoUser, .{
                 .id = id,
                 .name = "",
@@ -132,5 +132,5 @@ const pg_impl = if (pg_enabled) struct {
         ctx.redirect("/pg", .see_other);
     }
 } else struct {
-    const routes: []const zzz.RouteDef = &[_]zzz.RouteDef{};
+    const routes: []const pidgn.RouteDef = &[_]pidgn.RouteDef{};
 };

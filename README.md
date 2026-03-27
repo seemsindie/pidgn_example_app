@@ -1,16 +1,16 @@
-# zzz_example_app
+# pidgn_example_app
 
-Comprehensive demo application for the zzz web framework.
+Comprehensive demo application for the pidgn web framework.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Zig](https://img.shields.io/badge/Zig-0.16.0-orange.svg)](https://ziglang.org/)
 
-A reference implementation showcasing zzz's features end-to-end: routing, middleware, templates, REST APIs, authentication, sessions, WebSocket channels, database operations, background jobs, and htmx integration.
+A reference implementation showcasing pidgn's features end-to-end: routing, middleware, templates, REST APIs, authentication, sessions, WebSocket channels, database operations, background jobs, and htmx integration.
 
 ## Running
 
 ```bash
-cd zzz_example_app
+cd pidgn_example_app
 zig build run
 # Server running on http://127.0.0.1:9000
 ```
@@ -106,7 +106,7 @@ zig build run -Dtls=true
 | Route | Feature |
 |-------|---------|
 | `GET /db` | SQLite CRUD demo |
-| `POST /db/add` | Insert with zzz_db ORM |
+| `POST /db/add` | Insert with pidgn_db ORM |
 | `GET /pg` | PostgreSQL CRUD demo (optional) |
 
 ### Background Jobs
@@ -157,7 +157,7 @@ The app uses 11 middleware in its pipeline:
 ## Project Structure
 
 ```
-zzz_example_app/
+pidgn_example_app/
   src/
     main.zig                  # Route aggregation & server setup
     controllers/
@@ -175,10 +175,10 @@ zzz_example_app/
       cache_ctrl.zig          # Cache demo
       ssr_ctrl.zig            # SSR demo
     templates/
-      layout.html.zzz         # Main layout
-      index.html.zzz          # Home page
+      layout.html.pidgn         # Main layout
+      index.html.pidgn          # Home page
       partials/
-        nav.html.zzz          # Navigation
+        nav.html.pidgn          # Navigation
   public/
     css/style.css
     js/app.js
@@ -188,18 +188,18 @@ zzz_example_app/
 
 ## Documentation
 
-Full documentation available at [docs.zzz.indielab.link](https://docs.zzz.indielab.link).
+Full documentation available at [docs.pidgn.indielab.link](https://docs.pidgn.indielab.link).
 
 ## Ecosystem
 
 | Package | Description |
 |---------|-------------|
-| [zzz.zig](https://github.com/seemsindie/zzz.zig) | Core web framework |
-| [zzz_db](https://github.com/seemsindie/zzz_db) | Database ORM (SQLite + PostgreSQL) |
-| [zzz_jobs](https://github.com/seemsindie/zzz_jobs) | Background job processing |
-| [zzz_mailer](https://github.com/seemsindie/zzz_mailer) | Email sending |
-| [zzz_template](https://github.com/seemsindie/zzz_template) | Template engine |
-| [zzz_cli](https://github.com/seemsindie/zzz_cli) | CLI tooling |
+| [pidgn.zig](https://github.com/seemsindie/pidgn) | Core web framework |
+| [pidgn_db](https://github.com/seemsindie/pidgn_db) | Database ORM (SQLite + PostgreSQL) |
+| [pidgn_jobs](https://github.com/seemsindie/pidgn_jobs) | Background job processing |
+| [pidgn_mailer](https://github.com/seemsindie/pidgn_mailer) | Email sending |
+| [pidgn_template](https://github.com/seemsindie/pidgn_template) | Template engine |
+| [pidgn_cli](https://github.com/seemsindie/pidgn_cli) | CLI tooling |
 
 ## Requirements
 

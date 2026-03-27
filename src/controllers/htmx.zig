@@ -1,35 +1,35 @@
 const std = @import("std");
-const zzz = @import("zzz");
+const pidgn = @import("pidgn");
 const home = @import("home.zig");
 
 const AppLayout = home.AppLayout;
 
 // ── Templates ──────────────────────────────────────────────────────────
 
-const HtmxDemoContent = zzz.templateWithPartials(
-    @embedFile("../templates/htmx_demo.html.zzz"),
-    .{ .counter = @embedFile("../templates/partials/counter.html.zzz") },
+const HtmxDemoContent = pidgn.templateWithPartials(
+    @embedFile("../templates/htmx_demo.html.pidgn"),
+    .{ .counter = @embedFile("../templates/partials/counter.html.pidgn") },
 );
-const CounterPartial = zzz.template(@embedFile("../templates/partials/counter.html.zzz"));
+const CounterPartial = pidgn.template(@embedFile("../templates/partials/counter.html.pidgn"));
 
-const HtmxTodosContent = zzz.templateWithPartials(
-    @embedFile("../templates/htmx_todos.html.zzz"),
-    .{ .todo_item = @embedFile("../templates/partials/todo_item.html.zzz") },
+const HtmxTodosContent = pidgn.templateWithPartials(
+    @embedFile("../templates/htmx_todos.html.pidgn"),
+    .{ .todo_item = @embedFile("../templates/partials/todo_item.html.pidgn") },
 );
-const TodoListPartial = zzz.templateWithPartials(
-    @embedFile("../templates/partials/todo_list.html.zzz"),
-    .{ .todo_item = @embedFile("../templates/partials/todo_item.html.zzz") },
+const TodoListPartial = pidgn.templateWithPartials(
+    @embedFile("../templates/partials/todo_list.html.pidgn"),
+    .{ .todo_item = @embedFile("../templates/partials/todo_item.html.pidgn") },
 );
 
 // ── Routes ─────────────────────────────────────────────────────────────
 
-pub const ctrl = zzz.Controller.define(.{}, &.{
-    zzz.Router.get("/htmx", htmxDemo),
-    zzz.Router.post("/htmx/increment", htmxIncrement),
-    zzz.Router.get("/htmx/greeting", htmxGreeting),
-    zzz.Router.get("/todos", htmxTodos),
-    zzz.Router.post("/todos", htmxTodoAdd),
-    zzz.Router.delete("/todos/:id", htmxTodoDelete),
+pub const ctrl = pidgn.Controller.define(.{}, &.{
+    pidgn.Router.get("/htmx", htmxDemo),
+    pidgn.Router.post("/htmx/increment", htmxIncrement),
+    pidgn.Router.get("/htmx/greeting", htmxGreeting),
+    pidgn.Router.get("/todos", htmxTodos),
+    pidgn.Router.post("/todos", htmxTodoAdd),
+    pidgn.Router.delete("/todos/:id", htmxTodoDelete),
 });
 
 // ── State ──────────────────────────────────────────────────────────────
@@ -55,7 +55,7 @@ fn getTodoItems(buf: *[32]TodoItem, id_bufs: *[32][8]u8) []const TodoItem {
 
 // ── Handlers ───────────────────────────────────────────────────────────
 
-fn htmxDemo(ctx: *zzz.Context) !void {
+fn htmxDemo(ctx: *pidgn.Context) !void {
     const csrf_token = ctx.getAssign("csrf_token") orelse "";
     try ctx.renderWithLayoutAndYields(AppLayout, HtmxDemoContent, .ok, .{
         .title = "htmx Demo",
@@ -67,7 +67,7 @@ fn htmxDemo(ctx: *zzz.Context) !void {
     });
 }
 
-fn htmxIncrement(ctx: *zzz.Context) !void {
+fn htmxIncrement(ctx: *pidgn.Context) !void {
     const raw = ctx.param("count") orelse "0";
     const current = std.fmt.parseInt(u32, raw, 10) catch 0;
     var buf: [16]u8 = undefined;
@@ -76,15 +76,15 @@ fn htmxIncrement(ctx: *zzz.Context) !void {
     ctx.htmxTrigger("counterUpdated");
 }
 
-fn htmxGreeting(ctx: *zzz.Context) !void {
+fn htmxGreeting(ctx: *pidgn.Context) !void {
     const raw_name = ctx.param("name") orelse "stranger";
-    const name = zzz.urlDecode(ctx.allocator, raw_name) catch raw_name;
+    const name = pidgn.urlDecode(ctx.allocator, raw_name) catch raw_name;
     var buf: [256]u8 = undefined;
     const body = std.fmt.bufPrint(&buf, "<p>Hello, <strong>{s}</strong>!</p>", .{name}) catch "<p>Hello!</p>";
     ctx.html(.ok, body);
 }
 
-fn htmxTodos(ctx: *zzz.Context) !void {
+fn htmxTodos(ctx: *pidgn.Context) !void {
     var item_buf: [32]TodoItem = undefined;
     var id_bufs: [32][8]u8 = undefined;
     const items = getTodoItems(&item_buf, &id_bufs);
@@ -101,9 +101,9 @@ fn htmxTodos(ctx: *zzz.Context) !void {
     });
 }
 
-fn htmxTodoAdd(ctx: *zzz.Context) !void {
+fn htmxTodoAdd(ctx: *pidgn.Context) !void {
     const raw_text = ctx.param("text") orelse "";
-    const text = zzz.urlDecode(ctx.allocator, raw_text) catch raw_text;
+    const text = pidgn.urlDecode(ctx.allocator, raw_text) catch raw_text;
     if (text.len > 0 and todo_count < 32) {
         var slot = &todo_store[todo_count];
         const copy_len = @min(text.len, 128);
@@ -124,7 +124,7 @@ fn htmxTodoAdd(ctx: *zzz.Context) !void {
     });
 }
 
-fn htmxTodoDelete(ctx: *zzz.Context) !void {
+fn htmxTodoDelete(ctx: *pidgn.Context) !void {
     const id_str = ctx.param("id") orelse "0";
     const id = std.fmt.parseInt(usize, id_str, 10) catch 0;
     if (id > 0 and id <= todo_count) {

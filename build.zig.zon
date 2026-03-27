@@ -1,28 +1,28 @@
 .{
     .name = .example_app,
-    .version = "0.2.0-beta.1",
+    .version = "0.3.0-beta.1",
     .fingerprint = 0xc8a13f69989b0e46,
     .minimum_zig_version = "0.16.0-dev.2905+5d71e3051",
     .dependencies = .{
-        .zzz = .{
-            .url = "git+https://github.com/seemsindie/zzz.zig#40ccd1cdc4ae21b7366f84c51d0d2984804b7c04",
-            .hash = "zzz-0.2.0-beta.1-LYmrM-BnCQCYDh9kRvf47PpPQPd7BxtLp9heWIS2lXHs",
+        .pidgn = .{
+            .url = "git+https://github.com/seemsindie/pidgn#1648ab1e70f967232e500261bc0165d92f6b2116",
+            .hash = "pidgn-0.3.0-beta.1-0tg_sjppCQAYAA1rgZvomTq4NnCDundG8w7k3XdzfYsK",
         },
-        .zzz_db = .{
-            .url = "git+https://github.com/seemsindie/zzz_db#60dcab1e3a80001516a585602ec922a4843d6f3b",
-            .hash = "zzz_db-0.2.0-beta.1-Nj5Nlr-smQB56DSuwxSCUbqoTvb0BwLeiFntldlByRoc",
+        .pidgn_db = .{
+            .url = "git+https://github.com/seemsindie/pidgn_db#268bddcb69a90d07bee90af55811e6fcac596502",
+            .hash = "pidgn_db-0.3.0-beta.1-0vqMpvG2mQCLPvTuqg6DSDV48yCUeRSvu6yr8iqD5T-s",
         },
-        .zzz_jobs = .{
-            .url = "git+https://github.com/seemsindie/zzz_jobs#4f74ddc75c8a9bfd67837947af10d7bb3847f3f7",
-            .hash = "zzz_jobs-0.2.0-beta.1-AgagnYNgAQDdSmT2ekSMVR7BZ8RprdVDtGQoERNOcsuF",
+        .pidgn_jobs = .{
+            .url = "git+https://github.com/seemsindie/pidgn_jobs#f48443b03bbb8c197e1b2492fb619329a923a4c0",
+            .hash = "pidgn_jobs-0.3.0-beta.1-bsZY9ONgAQCpkQFjTEA-c19G-1KhgBPEIzOqUi2naDAM",
         },
-        .zzz_mailer = .{
-            .url = "git+https://github.com/seemsindie/zzz_mailer#68dfab96380ce99ccc980b3f5bad2999c7a31702",
-            .hash = "zzz_mailer-0.2.0-beta.1-vOeL4zdvAQCvC8daknhWPWzph6wTxiLz_2XApgxkui9q",
+        .pidgn_mailer = .{
+            .url = "git+https://github.com/seemsindie/pidgn_mailer#accfa3d96418ee4d53ad4bfd80aa49ab596ff300",
+            .hash = "pidgn_mailer-0.3.0-beta.1-__6bAHNvAQA1FD7Z_OG-zjdxiIb_PRF361katvoVR_92",
         },
-        .zzz_template = .{
-            .url = "git+https://github.com/seemsindie/zzz_template#45cec530f5f0f68d9d77ee5966ebea98302b5ea8",
-            .hash = "zzz_template-0.2.0-beta.1-907cK-UAAQAo_RGeGebvARY0_iFlQOabZOfIvhp0CrUU",
+        .pidgn_template = .{
+            .url = "git+https://github.com/seemsindie/pidgn_template#023adccb9fa49e20ca7976432ae4ceb7b6c703ef",
+            .hash = "pidgn_template-0.3.0-beta.1-vkexMPsAAQDhWHP24MH2FpxjcNOcpdZtfxuF5nA7V9UV",
         },
     },
     .paths = .{

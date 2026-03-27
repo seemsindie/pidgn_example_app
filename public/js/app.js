@@ -1,1 +1,1 @@
-console.log("Zzz example app loaded");
+console.log("Pidgn example app loaded");

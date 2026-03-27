@@ -1,14 +1,14 @@
-const zzz = @import("zzz");
+const pidgn = @import("pidgn");
 
 // ── Routes ─────────────────────────────────────────────────────────────
 
-pub const ctrl = zzz.Controller.define(.{}, &.{
-    zzz.Router.get("/download/:filename", downloadFile),
-    zzz.Router.get("/error-demo", errorDemo),
+pub const ctrl = pidgn.Controller.define(.{}, &.{
+    pidgn.Router.get("/download/:filename", downloadFile),
+    pidgn.Router.get("/error-demo", errorDemo),
 });
 
 // Rate-limited handler is exported directly — wired via Router.scope() in main.zig
-pub fn rateLimitedHandler(ctx: *zzz.Context) !void {
+pub fn rateLimitedHandler(ctx: *pidgn.Context) !void {
     ctx.json(.ok,
         \\{"message": "You are within the rate limit"}
     );
@@ -16,7 +16,7 @@ pub fn rateLimitedHandler(ctx: *zzz.Context) !void {
 
 // ── Handlers ───────────────────────────────────────────────────────────
 
-fn downloadFile(ctx: *zzz.Context) !void {
+fn downloadFile(ctx: *pidgn.Context) !void {
     const filename = ctx.param("filename") orelse {
         ctx.text(.bad_request, "missing filename");
         return;
@@ -24,6 +24,6 @@ fn downloadFile(ctx: *zzz.Context) !void {
     ctx.sendFile(filename, null);
 }
 
-fn errorDemo(_: *zzz.Context) !void {
+fn errorDemo(_: *pidgn.Context) !void {
     return error.IntentionalDemoError;
 }

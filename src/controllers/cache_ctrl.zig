@@ -1,14 +1,14 @@
 const std = @import("std");
-const zzz = @import("zzz");
+const pidgn = @import("pidgn");
 
 // ── Routes ─────────────────────────────────────────────────────────────
 
-pub const ctrl = zzz.Controller.define(.{}, &.{
-    zzz.Router.get("/cache-demo", cacheDemo),
+pub const ctrl = pidgn.Controller.define(.{}, &.{
+    pidgn.Router.get("/cache-demo", cacheDemo),
 });
 
 // Exported separately for use with Router.scope() in main.zig
-pub fn cachedTime(ctx: *zzz.Context) !void {
+pub fn cachedTime(ctx: *pidgn.Context) !void {
     // This will be cached — same response for 10s
     // Use a simple counter to show caching works (same value returned while cached)
     const counter = struct {
@@ -22,7 +22,7 @@ pub fn cachedTime(ctx: *zzz.Context) !void {
 
 // ── Handlers ───────────────────────────────────────────────────────────
 
-fn cacheDemo(ctx: *zzz.Context) !void {
+fn cacheDemo(ctx: *pidgn.Context) !void {
     ctx.html(.ok,
         \\<!DOCTYPE html>
         \\<html>

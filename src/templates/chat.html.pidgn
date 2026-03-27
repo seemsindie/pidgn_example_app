@@ -21,7 +21,7 @@
   </div>
 </div>
 
-<script src="/__zzz/zzz.js"></script>
+<script src="/__pidgn/pidgn.js"></script>
 <script>
   var sock = null;
   var channel = null;
@@ -46,7 +46,7 @@
     var url = proto + '//' + location.host + '/socket';
     var username = document.getElementById('username').value || 'user';
 
-    sock = Zzz.socket(url);
+    sock = Pidgn.socket(url);
     channel = sock.channel('room:lobby', { username: username });
 
     channel.on('new_msg', function(payload) {

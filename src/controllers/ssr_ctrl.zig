@@ -1,15 +1,15 @@
 const std = @import("std");
-const zzz = @import("zzz");
+const pidgn = @import("pidgn");
 
 // ── Routes ─────────────────────────────────────────────────────────────
 
-pub const ctrl = zzz.Controller.define(.{}, &.{
-    zzz.Router.get("/ssr-demo", ssrDemo),
+pub const ctrl = pidgn.Controller.define(.{}, &.{
+    pidgn.Router.get("/ssr-demo", ssrDemo),
 });
 
 // ── Handlers ───────────────────────────────────────────────────────────
 
-fn ssrDemo(ctx: *zzz.Context) !void {
+fn ssrDemo(ctx: *pidgn.Context) !void {
     ctx.html(.ok,
         \\<!DOCTYPE html>
         \\<html>
@@ -26,7 +26,7 @@ fn ssrDemo(ctx: *zzz.Context) !void {
         \\<h2>Setup</h2>
         \\<pre><code>
         \\# Generate SSR scaffold:
-        \\zzz assets setup --ssr
+        \\pidgn assets setup --ssr
         \\
         \\# This creates:
         \\#   assets/ssr-worker.js        — Bun worker that renders components
@@ -34,9 +34,9 @@ fn ssrDemo(ctx: *zzz.Context) !void {
         \\</code></pre>
         \\<h2>Usage in Zig</h2>
         \\<pre><code>
-        \\const zzz = @import("zzz");
+        \\const pidgn = @import("pidgn");
         \\
-        \\var ssr_pool = zzz.SsrPool.init(allocator, .{
+        \\var ssr_pool = pidgn.SsrPool.init(allocator, .{
         \\    .worker_script = "assets/ssr-worker.js",
         \\    .pool_size = 4,
         \\});

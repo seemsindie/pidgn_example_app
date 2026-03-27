@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{{title}} - Zzz</title>
+  <title>{{title}} - Pidgn</title>
   <link rel="stylesheet" href="/static/css/style.css">
   {{{yield_head}}}
 </head>
 <body>
   {{> nav}}
   <main>{{{yield}}}</main>
-  <footer><p>Powered by Zzz</p></footer>
+  <footer><p>Powered by Pidgn</p></footer>
   <script src="/static/js/app.js"></script>
   {{{yield_scripts}}}
 </body>

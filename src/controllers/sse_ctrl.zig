@@ -1,15 +1,15 @@
-const zzz = @import("zzz");
+const pidgn = @import("pidgn");
 
 // ── Routes ─────────────────────────────────────────────────────────────
 
-pub const ctrl = zzz.Controller.define(.{}, &.{
-    zzz.Router.get("/sse-demo", sseDemo),
-    zzz.Router.get("/events", sseEndpoint),
+pub const ctrl = pidgn.Controller.define(.{}, &.{
+    pidgn.Router.get("/sse-demo", sseDemo),
+    pidgn.Router.get("/events", sseEndpoint),
 });
 
 // ── Handlers ───────────────────────────────────────────────────────────
 
-fn sseDemo(ctx: *zzz.Context) !void {
+fn sseDemo(ctx: *pidgn.Context) !void {
     ctx.html(.ok,
         \\<!DOCTYPE html>
         \\<html>
@@ -31,7 +31,7 @@ fn sseDemo(ctx: *zzz.Context) !void {
     );
 }
 
-fn sseEndpoint(ctx: *zzz.Context) !void {
+fn sseEndpoint(ctx: *pidgn.Context) !void {
     // Send SSE-formatted response
     // In a real app, you'd use the SseWriter with a long-lived connection.
     // This demo sends initial events and lets the EventSource reconnect.

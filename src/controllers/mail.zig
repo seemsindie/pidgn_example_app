@@ -1,13 +1,13 @@
 const std = @import("std");
-const zzz = @import("zzz");
-const zzz_mailer = @import("zzz_mailer");
+const pidgn = @import("pidgn");
+const pidgn_mailer = @import("pidgn_mailer");
 const home = @import("home.zig");
 
 const AppLayout = home.AppLayout;
-const DevAdapter = zzz_mailer.DevAdapter;
-const DevMailer = zzz_mailer.DevMailer;
-const DevMailbox = zzz_mailer.DevMailbox;
-const Email = zzz_mailer.Email;
+const DevAdapter = pidgn_mailer.DevAdapter;
+const DevMailer = pidgn_mailer.DevMailer;
+const DevMailbox = pidgn_mailer.DevMailbox;
+const Email = pidgn_mailer.Email;
 
 // ── State ──────────────────────────────────────────────────────────────
 
@@ -26,35 +26,35 @@ fn ensureInit() void {
 
 // ── Routes ─────────────────────────────────────────────────────────────
 
-pub const ctrl = zzz.Controller.define(.{
+pub const ctrl = pidgn.Controller.define(.{
     .prefix = "/mail",
     .tag = "Mailer",
 }, &.{
-    zzz.Router.get("/send-test", sendTestEmail)
-        .doc(.{ .summary = "Send a test email", .description = "Sends a test email via the DevAdapter (viewable at /__zzz/mailbox)." }),
+    pidgn.Router.get("/send-test", sendTestEmail)
+        .doc(.{ .summary = "Send a test email", .description = "Sends a test email via the DevAdapter (viewable at /__pidgn/mailbox)." }),
 });
 
 // ── Handlers ───────────────────────────────────────────────────────────
 
-fn sendTestEmail(ctx: *zzz.Context) !void {
+fn sendTestEmail(ctx: *pidgn.Context) !void {
     ensureInit();
 
     const email = Email{
         .from = .{ .email = "noreply@example.com", .name = "Example App" },
         .to = &.{.{ .email = "user@example.com", .name = "Test User" }},
         .cc = &.{.{ .email = "cc@example.com" }},
-        .subject = "Welcome to zzz_mailer!",
-        .text_body = "Hello from zzz_mailer!\n\nThis is a test email sent via the DevAdapter.\nView all sent emails at /__zzz/mailbox.",
+        .subject = "Welcome to pidgn_mailer!",
+        .text_body = "Hello from pidgn_mailer!\n\nThis is a test email sent via the DevAdapter.\nView all sent emails at /__pidgn/mailbox.",
         .html_body =
         \\<!DOCTYPE html>
         \\<html>
         \\<body style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-        \\  <h1 style="color: #667eea;">Welcome to zzz_mailer!</h1>
-        \\  <p>Hello from zzz_mailer!</p>
+        \\  <h1 style="color: #667eea;">Welcome to pidgn_mailer!</h1>
+        \\  <p>Hello from pidgn_mailer!</p>
         \\  <p>This is a test email sent via the <strong>DevAdapter</strong>.</p>
-        \\  <p>View all sent emails at <a href="/__zzz/mailbox">/__zzz/mailbox</a>.</p>
+        \\  <p>View all sent emails at <a href="/__pidgn/mailbox">/__pidgn/mailbox</a>.</p>
         \\  <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
-        \\  <p style="color: #999; font-size: 12px;">Sent by the zzz web framework</p>
+        \\  <p style="color: #999; font-size: 12px;">Sent by the pidgn web framework</p>
         \\</body>
         \\</html>
         ,
@@ -62,12 +62,12 @@ fn sendTestEmail(ctx: *zzz.Context) !void {
 
     _ = dev_mailer.send(email, ctx.allocator);
 
-    ctx.redirect("/__zzz/mailbox", .see_other);
+    ctx.redirect("/__pidgn/mailbox", .see_other);
 }
 
 // ── Dev Mailbox Handlers ───────────────────────────────────────────────
 
-pub fn mailboxInbox(ctx: *zzz.Context) !void {
+pub fn mailboxInbox(ctx: *pidgn.Context) !void {
     ensureInit();
     var buf: [32768]u8 = undefined;
     if (mailbox.renderInbox(&buf)) |html| {
@@ -77,7 +77,7 @@ pub fn mailboxInbox(ctx: *zzz.Context) !void {
     }
 }
 
-pub fn mailboxDetail(ctx: *zzz.Context) !void {
+pub fn mailboxDetail(ctx: *pidgn.Context) !void {
     ensureInit();
     const index_str = ctx.param("index") orelse {
         ctx.text(.bad_request, "Missing index");
@@ -95,7 +95,7 @@ pub fn mailboxDetail(ctx: *zzz.Context) !void {
     }
 }
 
-pub fn mailboxHtml(ctx: *zzz.Context) !void {
+pub fn mailboxHtml(ctx: *pidgn.Context) !void {
     ensureInit();
     const index_str = ctx.param("index") orelse {
         ctx.text(.bad_request, "Missing index");
@@ -112,8 +112,8 @@ pub fn mailboxHtml(ctx: *zzz.Context) !void {
     }
 }
 
-pub fn mailboxClear(ctx: *zzz.Context) !void {
+pub fn mailboxClear(ctx: *pidgn.Context) !void {
     ensureInit();
     dev_mailer.adapter.clear();
-    ctx.redirect("/__zzz/mailbox", .see_other);
+    ctx.redirect("/__pidgn/mailbox", .see_other);
 }

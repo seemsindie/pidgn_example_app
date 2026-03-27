@@ -1,10 +1,10 @@
 const std = @import("std");
-const zzz = @import("zzz");
+const pidgn = @import("pidgn");
 
 // Auth handlers are exported directly — each uses a different auth middleware,
 // so they're wired via Router.scope() in main.zig rather than Controller.define().
 
-pub fn bearerDemo(ctx: *zzz.Context) !void {
+pub fn bearerDemo(ctx: *pidgn.Context) !void {
     const token = ctx.getAssign("bearer_token") orelse "none";
     var buf: [256]u8 = undefined;
     const body = std.fmt.bufPrint(&buf,
@@ -15,7 +15,7 @@ pub fn bearerDemo(ctx: *zzz.Context) !void {
     ctx.json(.ok, body);
 }
 
-pub fn basicDemo(ctx: *zzz.Context) !void {
+pub fn basicDemo(ctx: *pidgn.Context) !void {
     const username = ctx.getAssign("auth_username") orelse "none";
     const password = ctx.getAssign("auth_password") orelse "none";
     var buf: [256]u8 = undefined;
@@ -27,7 +27,7 @@ pub fn basicDemo(ctx: *zzz.Context) !void {
     ctx.json(.ok, body);
 }
 
-pub fn jwtDemo(ctx: *zzz.Context) !void {
+pub fn jwtDemo(ctx: *pidgn.Context) !void {
     const payload = ctx.getAssign("jwt_payload") orelse "none";
     var buf: [512]u8 = undefined;
     const body = std.fmt.bufPrint(&buf,

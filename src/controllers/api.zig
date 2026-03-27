@@ -1,5 +1,5 @@
 const std = @import("std");
-const zzz = @import("zzz");
+const pidgn = @import("pidgn");
 
 // ── Doc Types ──────────────────────────────────────────────────────────
 
@@ -41,25 +41,25 @@ pub const CreatePostRequest = struct {
 
 // ── Routes ─────────────────────────────────────────────────────────────
 
-pub const ctrl = zzz.Controller.define(.{
+pub const ctrl = pidgn.Controller.define(.{
     .prefix = "/api",
     .tag = "API",
 }, &.{
-    zzz.Router.get("/status", apiStatus).named("api_status")
+    pidgn.Router.get("/status", apiStatus).named("api_status")
         .doc(.{ .summary = "Health check", .description = "Returns the API status and version info.", .response_body = ApiStatusResponse }),
-    zzz.Router.get("/users", listUsers).named("users")
+    pidgn.Router.get("/users", listUsers).named("users")
         .doc(.{ .summary = "List all users", .tag = "Users", .response_body = UserListResponse }),
-    zzz.Router.get("/users/:id", getUser).named("user")
+    pidgn.Router.get("/users/:id", getUser).named("user")
         .doc(.{ .summary = "Get user by ID", .tag = "Users", .response_body = UserResponse }),
-    zzz.Router.post("/users", createUser)
+    pidgn.Router.post("/users", createUser)
         .doc(.{ .summary = "Create a new user", .tag = "Users", .request_body = CreateUserRequest, .response_body = UserResponse }),
-    zzz.Router.post("/echo", echoBody)
+    pidgn.Router.post("/echo", echoBody)
         .doc(.{ .summary = "Echo request body", .description = "Echoes back the parsed request body. Supports JSON, form, multipart, and text.", .tag = "System" }),
-    zzz.Router.post("/upload", uploadHandler)
+    pidgn.Router.post("/upload", uploadHandler)
         .doc(.{ .summary = "Upload a file", .description = "Upload a file via multipart form data.", .tag = "System" }),
 });
 
-pub const posts_resource = zzz.Router.resource("/api/posts", .{
+pub const posts_resource = pidgn.Router.resource("/api/posts", .{
     .index = listPosts,
     .show = getPost,
     .create = createPost,
@@ -69,19 +69,19 @@ pub const posts_resource = zzz.Router.resource("/api/posts", .{
 
 // ── Handlers ───────────────────────────────────────────────────────────
 
-fn apiStatus(ctx: *zzz.Context) !void {
+fn apiStatus(ctx: *pidgn.Context) !void {
     ctx.json(.ok,
-        \\{"status": "ok", "framework": "zzz", "version": "0.1.0"}
+        \\{"status": "ok", "framework": "pidgn", "version": "0.1.0"}
     );
 }
 
-fn listUsers(ctx: *zzz.Context) !void {
+fn listUsers(ctx: *pidgn.Context) !void {
     ctx.json(.ok,
         \\{"users": [{"id": 1, "name": "Alice"}, {"id": 2, "name": "Bob"}, {"id": 3, "name": "Charlie"}]}
     );
 }
 
-fn getUser(ctx: *zzz.Context) !void {
+fn getUser(ctx: *pidgn.Context) !void {
     const id = ctx.param("id") orelse "0";
     _ = id;
     ctx.json(.ok,
@@ -89,7 +89,7 @@ fn getUser(ctx: *zzz.Context) !void {
     );
 }
 
-fn createUser(ctx: *zzz.Context) !void {
+fn createUser(ctx: *pidgn.Context) !void {
     const name = ctx.param("name") orelse "anonymous";
     const email = ctx.param("email") orelse "not provided";
 
@@ -102,7 +102,7 @@ fn createUser(ctx: *zzz.Context) !void {
     ctx.json(.created, body);
 }
 
-fn echoBody(ctx: *zzz.Context) !void {
+fn echoBody(ctx: *pidgn.Context) !void {
     const content_type = ctx.request.contentType() orelse "none";
     const name = ctx.param("name") orelse "anonymous";
 
@@ -162,7 +162,7 @@ fn echoBody(ctx: *zzz.Context) !void {
     ctx.json(.ok, body);
 }
 
-fn uploadHandler(ctx: *zzz.Context) !void {
+fn uploadHandler(ctx: *pidgn.Context) !void {
     const description = ctx.formValue("description") orelse "no description";
 
     var buf: [512]u8 = undefined;
@@ -181,13 +181,13 @@ fn uploadHandler(ctx: *zzz.Context) !void {
     }
 }
 
-fn listPosts(ctx: *zzz.Context) !void {
+fn listPosts(ctx: *pidgn.Context) !void {
     ctx.json(.ok,
         \\{"posts": [{"slug": "hello-world", "title": "Hello World"}, {"slug": "zig-is-great", "title": "Zig Is Great"}]}
     );
 }
 
-fn getPost(ctx: *zzz.Context) !void {
+fn getPost(ctx: *pidgn.Context) !void {
     const slug = ctx.param("slug") orelse "unknown";
     _ = slug;
     ctx.json(.ok,
@@ -195,7 +195,7 @@ fn getPost(ctx: *zzz.Context) !void {
     );
 }
 
-fn createPost(ctx: *zzz.Context) !void {
+fn createPost(ctx: *pidgn.Context) !void {
     const title = ctx.param("title") orelse "untitled";
     _ = title;
     ctx.json(.created,
@@ -203,7 +203,7 @@ fn createPost(ctx: *zzz.Context) !void {
     );
 }
 
-fn updatePost(ctx: *zzz.Context) !void {
+fn updatePost(ctx: *pidgn.Context) !void {
     const id = ctx.param("id") orelse "0";
     _ = id;
     ctx.json(.ok,
@@ -211,7 +211,7 @@ fn updatePost(ctx: *zzz.Context) !void {
     );
 }
 
-fn deletePost(ctx: *zzz.Context) !void {
+fn deletePost(ctx: *pidgn.Context) !void {
     const id = ctx.param("id") orelse "0";
     _ = id;
     ctx.json(.ok,

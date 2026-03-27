@@ -8,40 +8,40 @@ pub fn build(b: *std.Build) void {
     const postgres_enabled = b.option(bool, "postgres", "Enable PostgreSQL support (requires libpq)") orelse false;
     const env_name = b.option([]const u8, "env", "Environment: dev (default), prod, staging") orelse "dev";
 
-    const zzz_dep = b.dependency("zzz", .{
+    const pidgn_dep = b.dependency("pidgn", .{
         .target = target,
         .tls = tls_enabled,
     });
 
-    const zzz_db_dep = b.dependency("zzz_db", .{
+    const pidgn_db_dep = b.dependency("pidgn_db", .{
         .target = target,
         .postgres = postgres_enabled,
     });
 
-    const zzz_jobs_dep = b.dependency("zzz_jobs", .{
+    const pidgn_jobs_dep = b.dependency("pidgn_jobs", .{
         .target = target,
         .postgres = postgres_enabled,
     });
 
-    const zzz_mailer_dep = b.dependency("zzz_mailer", .{
+    const pidgn_mailer_dep = b.dependency("pidgn_mailer", .{
         .target = target,
     });
 
-    const zzz_template_dep = b.dependency("zzz_template", .{
+    const pidgn_template_dep = b.dependency("pidgn_template", .{
         .target = target,
     });
-    const zzz_template_mod = zzz_template_dep.module("zzz_template");
+    const pidgn_template_mod = pidgn_template_dep.module("pidgn_template");
 
-    const zzz_db_mod = zzz_db_dep.module("zzz_db");
-    const zzz_jobs_mod = zzz_jobs_dep.module("zzz_jobs");
-    const zzz_mailer_mod = zzz_mailer_dep.module("zzz_mailer");
+    const pidgn_db_mod = pidgn_db_dep.module("pidgn_db");
+    const pidgn_jobs_mod = pidgn_jobs_dep.module("pidgn_jobs");
+    const pidgn_mailer_mod = pidgn_mailer_dep.module("pidgn_mailer");
 
-    // Ensure zzz_jobs uses the same zzz_db module to avoid duplicate module errors
-    zzz_jobs_mod.addImport("zzz_db", zzz_db_mod);
+    // Ensure pidgn_jobs uses the same pidgn_db module to avoid duplicate module errors
+    pidgn_jobs_mod.addImport("pidgn_db", pidgn_db_mod);
 
-    // Ensure zzz and zzz_mailer use the same zzz_template module
-    zzz_mailer_mod.addImport("zzz_template", zzz_template_mod);
-    zzz_dep.module("zzz").addImport("zzz_template", zzz_template_mod);
+    // Ensure pidgn and pidgn_mailer use the same pidgn_template module
+    pidgn_mailer_mod.addImport("pidgn_template", pidgn_template_mod);
+    pidgn_dep.module("pidgn").addImport("pidgn_template", pidgn_template_mod);
 
     // Build config path from -Denv option: config/dev.zig, config/prod.zig, etc.
     var config_path_buf: [64]u8 = undefined;
@@ -67,11 +67,11 @@ pub fn build(b: *std.Build) void {
             .target = target,
             .optimize = optimize,
             .imports = &.{
-                .{ .name = "zzz", .module = zzz_dep.module("zzz") },
-                .{ .name = "zzz_db", .module = zzz_db_mod },
-                .{ .name = "zzz_jobs", .module = zzz_jobs_mod },
-                .{ .name = "zzz_mailer", .module = zzz_mailer_mod },
-                .{ .name = "zzz_template", .module = zzz_template_mod },
+                .{ .name = "pidgn", .module = pidgn_dep.module("pidgn") },
+                .{ .name = "pidgn_db", .module = pidgn_db_mod },
+                .{ .name = "pidgn_jobs", .module = pidgn_jobs_mod },
+                .{ .name = "pidgn_mailer", .module = pidgn_mailer_mod },
+                .{ .name = "pidgn_template", .module = pidgn_template_mod },
                 .{ .name = "app_config", .module = app_config_mod },
             },
         }),

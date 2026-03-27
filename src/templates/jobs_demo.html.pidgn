@@ -11,7 +11,7 @@
       <option value="failing_worker">Failing (always errors)</option>
     </select>
   </label>
-  <input type="text" name="args" placeholder="Job arguments" value="hello from zzz_jobs">
+  <input type="text" name="args" placeholder="Job arguments" value="hello from pidgn_jobs">
   <button type="submit">Enqueue Job</button>
 </form>
 

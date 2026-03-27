@@ -1,13 +1,13 @@
 const std = @import("std");
-const zzz = @import("zzz");
-const zzz_jobs = @import("zzz_jobs");
+const pidgn = @import("pidgn");
+const pidgn_jobs = @import("pidgn_jobs");
 const home = @import("home.zig");
 
 const AppLayout = home.AppLayout;
 
 // ── Templates ──────────────────────────────────────────────────────────
 
-const JobsDemoContent = zzz.template(@embedFile("../templates/jobs_demo.html.zzz"));
+const JobsDemoContent = pidgn.template(@embedFile("../templates/jobs_demo.html.pidgn"));
 
 // ── Doc Types ──────────────────────────────────────────────────────────
 
@@ -25,22 +25,22 @@ pub const JobStatsResponse = struct {
 
 // ── Routes ─────────────────────────────────────────────────────────────
 
-pub const ctrl = zzz.Controller.define(.{
+pub const ctrl = pidgn.Controller.define(.{
     .prefix = "/jobs",
     .tag = "Jobs",
 }, &.{
-    zzz.Router.get("", jobsDemo),
-    zzz.Router.post("/enqueue", jobsEnqueue)
+    pidgn.Router.get("", jobsDemo),
+    pidgn.Router.post("/enqueue", jobsEnqueue)
         .doc(.{ .summary = "Enqueue a background job", .description = "Enqueue a new background job for async processing.", .request_body = JobEnqueueRequest }),
-    zzz.Router.get("/stats", jobsStats)
+    pidgn.Router.get("/stats", jobsStats)
         .doc(.{ .summary = "Get job queue stats", .description = "Returns current job queue statistics.", .response_body = JobStatsResponse }),
 });
 
 // ── State ──────────────────────────────────────────────────────────────
 
-var jobs_supervisor: zzz_jobs.MemorySupervisor = undefined;
+var jobs_supervisor: pidgn_jobs.MemorySupervisor = undefined;
 var jobs_initialized: bool = false;
-var jobs_telemetry: zzz_jobs.Telemetry = .{};
+var jobs_telemetry: pidgn_jobs.Telemetry = .{};
 
 var jobs_log: [16][128]u8 = [_][128]u8{[_]u8{0} ** 128} ** 16;
 var jobs_log_len: [16]usize = [_]usize{0} ** 16;
@@ -70,7 +70,7 @@ fn addJobLog(msg: []const u8) void {
     jobs_log_count += 1;
 }
 
-fn jobsTelemetryHandler(event: zzz_jobs.Event) void {
+fn jobsTelemetryHandler(event: pidgn_jobs.Event) void {
     switch (event) {
         .job_enqueued => |j| {
             var buf: [128]u8 = undefined;
@@ -103,23 +103,23 @@ fn jobsTelemetryHandler(event: zzz_jobs.Event) void {
     }
 }
 
-fn echoWorker(args: []const u8, _: *zzz_jobs.JobContext) anyerror!void {
+fn echoWorker(args: []const u8, _: *pidgn_jobs.JobContext) anyerror!void {
     _ = args;
 }
 
-fn slowWorker(args: []const u8, _: *zzz_jobs.JobContext) anyerror!void {
+fn slowWorker(args: []const u8, _: *pidgn_jobs.JobContext) anyerror!void {
     _ = args;
-    zzz_jobs.time_utils.sleepMs(2000);
+    pidgn_jobs.time_utils.sleepMs(2000);
 }
 
-fn failingWorker(_: []const u8, _: *zzz_jobs.JobContext) anyerror!void {
+fn failingWorker(_: []const u8, _: *pidgn_jobs.JobContext) anyerror!void {
     return error.SimulatedFailure;
 }
 
 fn initJobs() !void {
     if (jobs_initialized) return;
 
-    jobs_supervisor = try zzz_jobs.MemorySupervisor.init(.{}, .{
+    jobs_supervisor = try pidgn_jobs.MemorySupervisor.init(.{}, .{
         .queues = &.{.{ .name = "default", .concurrency = 2 }},
         .poll_interval_ms = 100,
         .rescue_interval_ms = 60_000,
@@ -203,7 +203,7 @@ fn renderStatsHtml(buf: *[2048]u8) []const u8 {
 
 // ── Handlers ───────────────────────────────────────────────────────────
 
-fn jobsDemo(ctx: *zzz.Context) !void {
+fn jobsDemo(ctx: *pidgn.Context) !void {
     initJobs() catch {
         ctx.text(.internal_server_error, "Jobs initialization failed");
         return;
@@ -216,7 +216,7 @@ fn jobsDemo(ctx: *zzz.Context) !void {
 
     try ctx.renderWithLayoutAndYields(AppLayout, JobsDemoContent, .ok, .{
         .title = "Background Jobs Demo",
-        .description = "Background job processing powered by zzz_jobs (in-memory store).",
+        .description = "Background job processing powered by pidgn_jobs (in-memory store).",
         .csrf_token = csrf_token,
         .stats_html = stats_html,
     }, .{
@@ -224,7 +224,7 @@ fn jobsDemo(ctx: *zzz.Context) !void {
     });
 }
 
-fn jobsEnqueue(ctx: *zzz.Context) !void {
+fn jobsEnqueue(ctx: *pidgn.Context) !void {
     initJobs() catch {
         ctx.text(.internal_server_error, "Jobs initialization failed");
         return;
@@ -239,7 +239,7 @@ fn jobsEnqueue(ctx: *zzz.Context) !void {
         "echo_worker";
 
     const raw_args = ctx.param("args") orelse "";
-    const decoded = zzz.urlDecode(ctx.allocator, raw_args) catch raw_args;
+    const decoded = pidgn.urlDecode(ctx.allocator, raw_args) catch raw_args;
     const args = storeArgs(decoded);
 
     _ = jobs_supervisor.enqueue(worker, args, .{
@@ -249,7 +249,7 @@ fn jobsEnqueue(ctx: *zzz.Context) !void {
     ctx.redirect("/jobs", .see_other);
 }
 
-fn jobsStats(ctx: *zzz.Context) !void {
+fn jobsStats(ctx: *pidgn.Context) !void {
     initJobs() catch {
         ctx.text(.internal_server_error, "Jobs initialization failed");
         return;

@@ -19,9 +19,9 @@ ENV PATH="/opt/zig:${PATH}"
 WORKDIR /build
 
 # Clone public dependencies
-RUN git clone --depth 1 https://github.com/seemsindie/zzz.zig.git ../zzz.zig && \
-    git clone --depth 1 https://github.com/seemsindie/zzz_db.git ../zzz_db && \
-    git clone --depth 1 https://github.com/seemsindie/zzz_jobs.git ../zzz_jobs
+RUN git clone --depth 1 https://github.com/seemsindie/pidgn.git ../pidgn.zig && \
+    git clone --depth 1 https://github.com/seemsindie/pidgn_db.git ../pidgn_db && \
+    git clone --depth 1 https://github.com/seemsindie/pidgn_jobs.git ../pidgn_jobs
 
 COPY . .
 RUN zig build -Doptimize=ReleaseSafe
