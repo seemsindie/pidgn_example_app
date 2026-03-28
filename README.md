@@ -18,13 +18,13 @@ zig build run
 ### With Asset Pipeline
 
 ```bash
-zzz assets setup     # Generate starter asset files
+pidgn assets setup     # Generate starter asset files
 bun install          # Install JavaScript dependencies
-zzz assets build     # Bundle, minify, and fingerprint assets
+pidgn assets build     # Bundle, minify, and fingerprint assets
 zig build run        # Start the server
 ```
 
-During development, run `zzz assets watch` in a separate terminal to rebuild assets on change.
+During development, run `pidgn assets watch` in a separate terminal to rebuild assets on change.
 
 ### With PostgreSQL
 
