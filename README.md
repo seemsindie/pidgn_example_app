@@ -188,7 +188,7 @@ pidgn_example_app/
 
 ## Documentation
 
-Full documentation available at [docs.pidgn.indielab.link](https://docs.pidgn.indielab.link).
+Full documentation available at [docs.pidgn.seemsindie.com](https://docs.pidgn.seemsindie.com).
 
 ## Ecosystem
 
