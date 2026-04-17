@@ -5,24 +5,24 @@
     .minimum_zig_version = "0.16.0-dev.2905+5d71e3051",
     .dependencies = .{
         .pidgn = .{
-            .url = "git+https://github.com/seemsindie/pidgn#1648ab1e70f967232e500261bc0165d92f6b2116",
-            .hash = "pidgn-0.3.0-beta.1-0tg_sjppCQAYAA1rgZvomTq4NnCDundG8w7k3XdzfYsK",
+            .url = "git+https://github.com/seemsindie/pidgn#448372679bd0247db2ffdad921873c1379ae1694",
+            .hash = "pidgn-0.3.1-beta.16-0tg_sm5vCQBMNEZ_PRYaL5UZ34UnCOUiTzGC_QMeXzsU",
         },
         .pidgn_db = .{
-            .url = "git+https://github.com/seemsindie/pidgn_db#268bddcb69a90d07bee90af55811e6fcac596502",
-            .hash = "pidgn_db-0.3.0-beta.1-0vqMpvG2mQCLPvTuqg6DSDV48yCUeRSvu6yr8iqD5T-s",
+            .url = "git+https://github.com/seemsindie/pidgn_db#964b707fbfdea26f75f5fee500317c2cf22c61ac",
+            .hash = "pidgn_db-0.3.1-beta.1-0vqMpvi2mQBpxrPOrjYILyrNFRXRFHMHuEdoC0SvQ6rK",
         },
         .pidgn_jobs = .{
-            .url = "git+https://github.com/seemsindie/pidgn_jobs#f48443b03bbb8c197e1b2492fb619329a923a4c0",
-            .hash = "pidgn_jobs-0.3.0-beta.1-bsZY9ONgAQCpkQFjTEA-c19G-1KhgBPEIzOqUi2naDAM",
+            .url = "git+https://github.com/seemsindie/pidgn_jobs#c85a4c4e9c87045639babb1a519fd8f37cf0b841",
+            .hash = "pidgn_jobs-0.3.1-beta.1-bsZY9OpgAQCktXPf_m6chMBSRPoy52YLo8EPltZtIkvD",
         },
         .pidgn_mailer = .{
-            .url = "git+https://github.com/seemsindie/pidgn_mailer#accfa3d96418ee4d53ad4bfd80aa49ab596ff300",
-            .hash = "pidgn_mailer-0.3.0-beta.1-__6bAHNvAQA1FD7Z_OG-zjdxiIb_PRF361katvoVR_92",
+            .url = "git+https://github.com/seemsindie/pidgn_mailer#6d29fd99800fd394f1a4850300f1889b68cc3c71",
+            .hash = "pidgn_mailer-0.3.1-beta.1-__6bAHpvAQB4B8CHuxmWGSVJVrhXFnBXYGWkHkXTxZT1",
         },
         .pidgn_template = .{
-            .url = "git+https://github.com/seemsindie/pidgn_template#023adccb9fa49e20ca7976432ae4ceb7b6c703ef",
-            .hash = "pidgn_template-0.3.0-beta.1-vkexMPsAAQDhWHP24MH2FpxjcNOcpdZtfxuF5nA7V9UV",
+            .url = "git+https://github.com/seemsindie/pidgn_template#aec20dc6144c986523efc04b83c014a5ac3b9d86",
+            .hash = "pidgn_template-0.3.1-beta.1-vkexMPsAAQDOQ58b2BjcKJjQDlpNm2LJRZ-jcdXSM7_6",
         },
     },
     .paths = .{
